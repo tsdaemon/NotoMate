@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "notion-assistant"
+version = "0.0.1"
+description = "Personal assistant with access to Notion"
+authors = ["Anatolii Stehnii <tsdaemon@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+openai = "^1.13.3"
+langchain = "^0.1.9"
+notion = "^0.0.28"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.0"
+mypy = "^1.8.0"
+pytest = "^8.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
