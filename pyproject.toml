@@ -5,12 +5,16 @@ description = "Personal assistant with access to Notion"
 authors = ["Anatolii Stehnii <tsdaemon@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+packages = [
+    { include = "app" },
+    { include = "packages" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-openai = "^1.13.3"
-langchain = "^0.1.9"
 notion = "^0.0.28"
+langserve = {extras = ["all"], version = "^0.0.45"}
+openai-functions-agent = {path = "packages/openai-functions-agent", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.0"
@@ -20,3 +24,28 @@ pytest = "^8.0.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.11"
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 120
+
+select = ["E", "F", "I", "N", "UP", "INP"]
+ignore = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".data",
+    ".mypy_cache",
+    "experiments",
+]
+per-file-ignores = {}
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.11.
+target-version = "py311"
