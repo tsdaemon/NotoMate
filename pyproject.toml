@@ -16,6 +16,7 @@ langserve = {extras = ["all"], version = "^0.0.45"}
 openai-functions-agent = {path = "packages/openai-functions-agent", develop = true}
 notion-client = "^2.2.1"
 pydantic = "^1.10.13"
+chainlit = "^1.0.301"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.0"
@@ -50,3 +51,6 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Assume Python 3.11.
 target-version = "py311"
+
+[tool.ruff.lint.isort]
+known-local-folder = ["app"]

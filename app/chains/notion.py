@@ -8,7 +8,6 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain_community.tools.convert_to_openai import format_tool_to_openai_function
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.pydantic_v1 import BaseModel, Field
 from notion_client import Client
 
 from app.tools.notion import NotionSearch
@@ -19,7 +18,7 @@ notion_tool = NotionSearch(client=notion_client)
 tools = [notion_tool]
 
 # Create LLM
-llm = ChatOpenAI(temperature=0)
+llm = ChatOpenAI(temperature=0, streaming=True)
 assistant_system_message = """Ти помічник і можеш використовувати інструменти, щоб найкраще
 відповісти на питання користувача."""
 prompt = ChatPromptTemplate.from_messages(
@@ -53,14 +52,4 @@ agent: Any = (
     | OpenAIFunctionsAgentOutputParser()
 )
 
-
-class AgentInput(BaseModel):
-    input: str
-    chat_history: list[tuple[str, str]] = Field(
-        ..., extra={"widget": {"type": "chat", "input": "input", "output": "output"}}
-    )
-
-
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True).with_types(
-    input_type=AgentInput  # type: ignore
-)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
