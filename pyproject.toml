@@ -12,9 +12,10 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-notion = "^0.0.28"
 langserve = {extras = ["all"], version = "^0.0.45"}
 openai-functions-agent = {path = "packages/openai-functions-agent", develop = true}
+notion-client = "^2.2.1"
+pydantic = "^1.10.13"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.0"

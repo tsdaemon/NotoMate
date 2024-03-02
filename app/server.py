@@ -1,3 +1,4 @@
+from chains.notion import agent_executor as notion_chain
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse, Response
 from langserve import add_routes
@@ -13,6 +14,7 @@ async def redirect_root_to_docs() -> Response:
 
 # Edit this to add the chain you want to add
 add_routes(app, openai_functions_agent_chain, path="/search-agent")
+add_routes(app, notion_chain, path="/notion-agent")
 
 if __name__ == "__main__":
     import uvicorn
