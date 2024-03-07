@@ -2,7 +2,7 @@ import chainlit as cl
 from langchain.agents import AgentExecutor
 from langchain_core.runnables.config import RunnableConfig
 
-from app.chains.notion import agent_executor as notion_agent
+from app.chains.notion.api import agent_executor as notion_agent
 
 
 @cl.on_chat_start
