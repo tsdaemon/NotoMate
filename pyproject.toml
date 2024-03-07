@@ -17,6 +17,7 @@ openai-functions-agent = {path = "packages/openai-functions-agent", develop = tr
 notion-client = "^2.2.1"
 pydantic = "^1.10.13"
 chainlit = "^1.0.301"
+langchain-openai = "^0.0.8"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.0"

@@ -4,18 +4,19 @@ from typing import Any
 from langchain.agents import AgentExecutor
 from langchain.agents.format_scratchpad import format_to_openai_function_messages
 from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
-from langchain_community.chat_models import ChatOpenAI
-from langchain_community.tools.convert_to_openai import format_tool_to_openai_function
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.utils.function_calling import convert_to_openai_function
+from langchain_openai.chat_models import ChatOpenAI
 from notion_client import Client
 
-from app.tools.notion import NotionSearch
+from app.tools.notion import GetNotionPageContent, SearchMyNotion
 
 # Create tools
 notion_client = Client(auth=os.environ["NOTION_API_KEY"])
-notion_tool = NotionSearch(client=notion_client)
-tools = [notion_tool]
+search_tool = SearchMyNotion(client=notion_client)
+page_content_tool = GetNotionPageContent(client=notion_client)
+tools = [search_tool, page_content_tool]
 
 # Create LLM
 llm = ChatOpenAI(temperature=0, streaming=True)
@@ -29,7 +30,7 @@ prompt = ChatPromptTemplate.from_messages(
         MessagesPlaceholder(variable_name="agent_scratchpad"),
     ]
 )
-llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
+llm_with_tools = llm.bind(functions=[convert_to_openai_function(t) for t in tools])
 
 
 # Create the chain
