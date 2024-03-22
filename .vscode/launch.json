@@ -19,6 +19,13 @@
             "request": "launch",
             "module": "chainlit",
             "args": ["run","app/server_cl.py", "-w"]
+        },
+        {
+            "name": "Serve chainlit with supervisor",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "chainlit",
+            "args": ["run","app/server_cl_supervisor.py", "-w"]
         }
     ]
 }

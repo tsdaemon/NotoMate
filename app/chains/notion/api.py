@@ -1,14 +1,10 @@
 import os
-from typing import Any
 
-from langchain.agents import AgentExecutor
-from langchain.agents.format_scratchpad import format_to_openai_function_messages
-from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
-from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
+from langchain.agents import AgentExecutor, create_openai_tools_agent
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.pydantic_v1 import BaseModel, Field
+from langchain_core.runnables import Runnable
 from langchain_core.tools import tool
-from langchain_core.utils.function_calling import convert_to_openai_function
 from langchain_openai.chat_models import ChatOpenAI
 from notion_client import Client
 
@@ -69,37 +65,19 @@ tools = [search_my_notion, get_notion_page_content]
 
 # Create LLM
 llm = ChatOpenAI(temperature=0, streaming=True)
-assistant_system_message = """Ти помічник і можеш використовувати інструменти, щоб найкраще
-відповісти на питання користувача."""
+assistant_system_message = """
+You are a second level agent which helps a top level agent to answer user questions using access to Notion API.
+Answer in JSON format, limit response to only necessary information.
+"""
 prompt = ChatPromptTemplate.from_messages(
     [
         ("system", assistant_system_message),
-        MessagesPlaceholder(variable_name="chat_history"),
-        ("user", "{input}"),
+        MessagesPlaceholder(variable_name="messages"),
         MessagesPlaceholder(variable_name="agent_scratchpad"),
     ]
 )
-llm_with_tools = llm.bind(functions=[convert_to_openai_function(t) for t in tools])
-
 
 # Create the chain
-def _format_chat_history(chat_history: list[tuple[str, str]]) -> list[BaseMessage]:
-    buffer: list[BaseMessage] = []
-    for human, ai in chat_history:
-        buffer.append(HumanMessage(content=human))
-        buffer.append(AIMessage(content=ai))
-    return buffer
+agent: Runnable = create_openai_tools_agent(llm, tools, prompt)
 
-
-agent: Any = (
-    {
-        "input": lambda x: x["input"],
-        "chat_history": lambda x: _format_chat_history(x["chat_history"]),
-        "agent_scratchpad": lambda x: format_to_openai_function_messages(x["intermediate_steps"]),
-    }
-    | prompt
-    | llm_with_tools
-    | OpenAIFunctionsAgentOutputParser()
-)
-
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)  # type: ignore
