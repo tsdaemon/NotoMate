@@ -1,5 +1,5 @@
 NotoMate
----
+===
 
 NotoMate is a chatbot-personal assistant with access to Notion.
 
