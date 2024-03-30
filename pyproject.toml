@@ -5,27 +5,19 @@ description = "Personal assistant with access to Notion"
 authors = ["Anatolii Stehnii <tsdaemon@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [
-    { include = "app" },
-    { include = "packages" }
-]
+packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-langserve = {extras = ["all"], version = "^0.0.45"}
-openai-functions-agent = {path = "packages/openai-functions-agent", develop = true}
 notion-client = "^2.2.1"
-pydantic = "^1.10.13"
 chainlit = "^1.0.301"
 langchain-openai = "^0.0.8"
-langgraph = "^0.0.26"
 langchain = "^0.1.11"
 langchain-experimental = "^0.0.53"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.0"
 mypy = "^1.8.0"
-pytest = "^8.0.2"
 
 [build-system]
 requires = ["poetry-core"]

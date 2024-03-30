@@ -1,0 +1,13 @@
+.env
+sample.env
+
+.dockerignore
+.gitignore
+
+.mypy_cache
+.ruff_cache
+
+.pre-commit-config.yaml
+.vscode
+fly.toml
+README.md

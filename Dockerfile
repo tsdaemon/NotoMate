@@ -1,21 +1,19 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
-RUN pip install poetry==1.6.1
+# Create folder
+RUN mkdir /app
+WORKDIR /app
 
-RUN poetry config virtualenvs.create false
+# Install poetry
+RUN pip install poetry==1.8.2
 
-WORKDIR /code
+# Install project dependencies
+COPY poetry.lock pyproject.toml ./
+RUN poetry install --no-root --no-cache --only main
 
-COPY ./pyproject.toml ./README.md ./poetry.lock* ./
+# Copy project files
+COPY . .
+RUN poetry install --only main
 
-COPY ./package[s] ./packages
-
-RUN poetry install  --no-interaction --no-ansi --no-root
-
-COPY ./app ./app
-
-RUN poetry install --no-interaction --no-ansi
-
-EXPOSE 8080
-
-CMD exec uvicorn app.server:app --host 0.0.0.0 --port 8080
+# Run the application
+ENTRYPOINT poetry run chainlit run src/app.py

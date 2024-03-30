@@ -1,11 +1,7 @@
 import os
 
-from langchain.agents import AgentExecutor, create_openai_tools_agent
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_core.runnables import Runnable
 from langchain_core.tools import tool
-from langchain_openai.chat_models import ChatOpenAI
 from notion_client import Client
 
 notion_client = Client(auth=os.environ["NOTION_API_KEY"])
@@ -62,22 +58,3 @@ def get_notion_page_content(page_id: str, start_cursor: str | None = None) -> di
 
 # Create tools
 tools = [search_my_notion, get_notion_page_content]
-
-# Create LLM
-llm = ChatOpenAI(temperature=0, streaming=True)
-assistant_system_message = """
-You are a second level agent which helps a top level agent to answer user questions using access to Notion API.
-Answer in JSON format, limit response to only necessary information.
-"""
-prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", assistant_system_message),
-        MessagesPlaceholder(variable_name="messages"),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-    ]
-)
-
-# Create the chain
-agent: Runnable = create_openai_tools_agent(llm, tools, prompt)
-
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)  # type: ignore
