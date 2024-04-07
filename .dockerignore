@@ -1,4 +1,4 @@
-.env
+.env*
 sample.env
 
 .dockerignore
@@ -11,3 +11,4 @@ sample.env
 .vscode
 fly.toml
 README.md
+Makefile

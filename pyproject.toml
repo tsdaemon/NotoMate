@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "NotoMate"
+name = "noto-mate"
 version = "0.0.1"
 description = "Personal assistant with access to Notion"
 authors = ["Anatolii Stehnii <tsdaemon@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{ include = "src" }]
+packages = [{ include = "noto_mate" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"

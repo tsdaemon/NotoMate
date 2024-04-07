@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import Runnable
 from langchain_openai.chat_models import ChatOpenAI
 
-from src.tools.notion import tools as notion_tools
+from noto_mate.tools.notion import tools as notion_tools
 
 tools: list = notion_tools
 llm = ChatOpenAI(temperature=0.1, streaming=True, model="gpt-4-0125-preview")

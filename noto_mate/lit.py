@@ -1,8 +1,22 @@
+import os
+
 import chainlit as cl
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.runnables import Runnable, RunnableConfig
 
-from src.agent import agent_executor as notion_agent_executor
+from noto_mate.agent import agent_executor as notion_agent_executor
+
+ALLOWED_USERNAME = os.environ.get("CHAINLIT_ALLOWED_USERNAME")
+if ALLOWED_USERNAME:
+    print(f"Allowed username: {ALLOWED_USERNAME}")
+
+    @cl.oauth_callback
+    def auth_callback(
+        provider_id: str, token: str, raw_user_data: dict[str, str], default_app_user: cl.User
+    ) -> cl.User | None:
+        if provider_id == "github" and default_app_user.identifier == ALLOWED_USERNAME:
+            return default_app_user
+        return None
 
 
 @cl.on_chat_start
