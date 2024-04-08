@@ -24,6 +24,11 @@ async def on_chat_start() -> None:
     cl.user_session.set("agent", notion_agent_executor)
     cl.user_session.set("messages", [])
 
+    await cl.Avatar(
+        name="NotoMate",
+        url="public/notion-logo.png",
+    ).send()
+
 
 @cl.on_message
 async def on_message(input: cl.Message) -> None:

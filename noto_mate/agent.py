@@ -10,7 +10,7 @@ llm = ChatOpenAI(temperature=0.1, streaming=True, model="gpt-4-0125-preview")
 assistant_system_message = """
 You are a helpful agent which helps a user to manage his Notion API.
 
-Greet the user in the first message. Answer in Ukrainian.
+Greet the user in the first message. Answer in Ukrainian, informally.
 """
 prompt = ChatPromptTemplate.from_messages(
     [

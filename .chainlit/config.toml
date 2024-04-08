@@ -23,10 +23,10 @@ allow_origins = ["*"]
 prompt_playground = true
 
 # Process and display HTML in messages. This can be a security risk (see https://stackoverflow.com/questions/19603097/why-is-it-dangerous-to-render-user-generated-html-or-javascript)
-unsafe_allow_html = false
+unsafe_allow_html = true
 
 # Process and display mathematical expressions. This can clash with "$" characters in messages.
-latex = false
+latex = true
 
 # Authorize users to upload files with messages
 multi_modal = true
@@ -39,7 +39,7 @@ multi_modal = true
 
 [UI]
 # Name of the app and chatbot.
-name = "Chatbot"
+name = "NotoMate"
 
 # Show the readme while the thread is empty.
 show_readme_as_default = true
@@ -57,7 +57,7 @@ default_expand_messages = false
 hide_cot = false
 
 # Link to your github repo. This will add a github button in the UI's header.
-# github = ""
+github = "https://github.com/tsdaemon/notomate"
 
 # Specify a CSS file that can be used to customize the user interface.
 # The CSS file can be served from the public directory or via an external link.
@@ -88,9 +88,9 @@ hide_cot = false
     #paper = "#FFFFFF"
 
     [UI.theme.dark.primary]
-        #main = "#F80061"
-        #dark = "#980039"
-        #light = "#FFE7EB"
+        main = "#29b6f6"
+        dark = "#0288d1"
+        light = "#4fc3f7"
 
 
 [meta]
