@@ -30,6 +30,13 @@ async def on_chat_start() -> None:
     ).send()
 
 
+# @cl.on_chat_resume
+# async def on_chat_resume(thread: ThreadDict) -> None:
+#     cl.user_session.set("agent", notion_agent_executor)
+#     messages = thread["steps"]
+#     cl.user_session.set("messages", [])
+
+
 @cl.on_message
 async def on_message(input: cl.Message) -> None:
     agent: Runnable = cl.user_session.get("agent")  # type: ignore
@@ -46,7 +53,7 @@ async def on_message(input: cl.Message) -> None:
     ):
         kind = event["event"]
         if kind == "on_chat_model_stream":
-            content = event["data"]["chunk"].content
+            content = event["data"]["chunk"].content  # type: ignore
             await response.stream_token(content)
             ai_message_str += content
 

@@ -6,7 +6,7 @@ from langchain_openai.chat_models import ChatOpenAI
 from noto_mate.tools.notion import tools as notion_tools
 
 tools: list = notion_tools
-llm = ChatOpenAI(temperature=0.1, streaming=True, model="gpt-4-0125-preview")
+llm = ChatOpenAI(temperature=0.1, streaming=True, model="gpt-4-1106-preview")
 assistant_system_message = """
 You are a helpful agent which helps a user to manage his Notion API.
 
