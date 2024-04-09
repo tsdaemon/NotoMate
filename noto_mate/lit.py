@@ -26,7 +26,7 @@ async def on_chat_start() -> None:
 
     await cl.Avatar(
         name="NotoMate",
-        url="public/notion-logo.png",
+        url="public/avatar.png",
     ).send()
 
 
